@@ -1,9 +1,8 @@
 import { Card, Avatar } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faEye, faTrashAlt, faPen } from "@fortawesome/free-solid-svg-icons";
 const { Meta } = Card;
-const AnimalCard = () => {
+const AnimalCardPosts = () => {
   return (
     <Card
       style={{ width: 300 }}
@@ -15,7 +14,15 @@ const AnimalCard = () => {
         />
       }
       actions={[
-        <FontAwesomeIcon icon={faHeart} size="lg" key="delete" />,
+        <FontAwesomeIcon icon={faTrashAlt} size="lg" key="delete" />,
+        <FontAwesomeIcon
+          icon={faPen}
+          size="lg"
+          key="edit"
+          onClick={() => {
+            console.log("hola");
+          }}
+        />,
         <FontAwesomeIcon icon={faEye} size="lg" key="preview" />,
       ]}
     >
@@ -29,4 +36,4 @@ const AnimalCard = () => {
     </Card>
   );
 };
-export default AnimalCard;
+export default AnimalCardPosts;
