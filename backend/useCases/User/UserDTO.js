@@ -22,6 +22,12 @@ module.exports = {
             password:data.password
         }
     },
+    LoginUserRequestDTO:(data) => {
+        return {
+            email:data.email,
+            password:data.password
+        }
+    },
     UserResponseDTO:(data) => {
         return {
             id:data.id,
