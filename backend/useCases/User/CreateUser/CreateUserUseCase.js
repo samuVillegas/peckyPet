@@ -1,5 +1,5 @@
 const User = require('../../../entities/User')
-
+const {encrypt,compare } = require('../../../helpers/passwordSecurity')
 module.exports = class {
     constructor(userRepository){
         this.userRepository = userRepository;
@@ -12,6 +12,8 @@ module.exports = class {
             throw new Error('User already exists.');
         }
 
+        const encrypt_password = await encrypt(createUserRequestDTO.password);
+        
         const user = new User(
             null,
             createUserRequestDTO.full_name,
@@ -19,7 +21,7 @@ module.exports = class {
             createUserRequestDTO.address,
             createUserRequestDTO.user_type,
             createUserRequestDTO.email,
-            createUserRequestDTO.password,
+            encrypt_password,
             createUserRequestDTO.register_date
             );
         
