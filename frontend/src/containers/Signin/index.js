@@ -14,14 +14,14 @@ const Signin = () => {
 
 return (
     <div className='m-0 vh-100 row justify-content-center align-items-center' style={{
-        background:'rgba(0, 21, 41)'
+        background:'linear-gradient(to bottom right, blue, white)'
     }}>
         <div className='col-auto p-5 text-center'>
                 <div className='bg-white p-5 border border-dark rounded'>
                 <Image
                     width={150}
                     preview={false}
-                    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                    src="https://firebasestorage.googleapis.com/v0/b/peckypet.appspot.com/o/public%2FLogo.PNG?alt=media&token=26078209-0e3a-4738-9d71-ae7f779f9bc8"
                 />
                     <Formik
                         initialValues={{
