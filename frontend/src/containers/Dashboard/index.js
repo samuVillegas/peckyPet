@@ -9,7 +9,7 @@ const Dashboard = () => {
     <Layout className="layout">
         <Header/>
         <Content className='mt-5' style={{ padding: '0 50px',
-          'min-height': '280px',
+          'minHeight': '280px',
             'padding': '24px',
             'background': '#fff'
         }}>

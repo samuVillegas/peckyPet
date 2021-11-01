@@ -35,7 +35,7 @@ const Signup = () => {
 
 return (
     <div className='m-0 vh-100 row justify-content-center align-items-center' style={{
-        background:'linear-gradient(to bottom right, blue, white)'
+        background:'linear-gradient(to bottom right, rgb(50,191,208), white)'
     }}>
         <div className='col-auto p-5 text-center'>
                 <div className='bg-white p-5 border border-dark rounded'>
