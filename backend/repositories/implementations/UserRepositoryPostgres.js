@@ -29,7 +29,7 @@ module.exports = class extends UserRepository{
         const seqGetUser = await pool.query(`
             SELECT * FROM "user" WHERE id=${userId};
         `)
-        return seqGetUser;
+        return seqGetUser.rows[0];
     }
 
     async merge(userEntity){

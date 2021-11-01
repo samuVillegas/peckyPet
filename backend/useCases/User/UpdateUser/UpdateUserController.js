@@ -1,16 +1,16 @@
-const {CreateUserRequestDTO} = require('../UserDTO');
+const {UpdateUserRequestDTO} = require('../UserDTO');
 
 module.exports = class {
-    constructor(createUserUseCase){
-        this.createUserUseCase = createUserUseCase;
+    constructor(updateUserUseCase){
+        this.updateUserUseCase = updateUserUseCase;
     }
 
     async handle(req,res){
-        const userDTO = CreateUserRequestDTO(req.body);
+        const userDTO = UpdateUserRequestDTO(req.body);
         try{
-            await this.createUserUseCase.execute(userDTO);
+            await this.updateUserUseCase.execute(userDTO);
             return res.status(201).json({
-                message: 'User created'
+                message: 'User updated'
             })
         }catch(e){
             console.log(e);
