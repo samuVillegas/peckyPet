@@ -32,6 +32,8 @@ const HeaderApp = () => {
           onSelect={(e) => {
             if (e.key == "my_post")
               window.location.pathname = "/dashboard/posts";
+            if(e.key == "adopt")
+              window.location.pathname = "/dashboard/index";
           }}
           className="p-0"
         >
