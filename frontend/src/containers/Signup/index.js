@@ -30,7 +30,8 @@ const Signup = () => {
         password: Yup.string().required('Debe ser ingresado'),
         full_name: Yup.string().required('Debe ser ingresado'),
         last_name: Yup.string().required('Debe ser ingresado'),
-        user_type: Yup.string().required('Debe ser ingresado')
+        user_type: Yup.string().required('Debe ser ingresado'),
+        mobile_phone: Yup.string().required('Debe ser ingresado')
     })
 
 return (
@@ -45,7 +46,8 @@ return (
                             password:'',
                             full_name: '',
                             last_name: '',
-                            user_type: ''
+                            user_type: '',
+                            mobile_phone: ''
                         }}
                         onSubmit={submit}
                         validationSchema={validateSchema}
@@ -137,6 +139,21 @@ return (
                                         <Option value="person">Persona</Option>
                                         <Option value="organization">Organización</Option>
                                     </Select>
+                                </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <span className='text-danger'>*</span>
+                                </Col>
+                                <Col>
+                                <Form.Item name='mobile_phone'>
+                                    
+                                    <Input
+                                        name='mobile_phone'
+                                        placeholder='Número celular'
+                                    >
+                                    </Input>
                                 </Form.Item>
                                 </Col>
                             </Row>

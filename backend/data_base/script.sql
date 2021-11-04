@@ -1,6 +1,6 @@
 CREATE TYPE enum_user_type AS ENUM ('organization','person');
 CREATE TYPE enum_vaccinated_state AS ENUM('vaccinated','not_vaccinated','not_know');
-CREATE TYPE enum_size_type AS ENUM('large,medium','small');
+CREATE TYPE enum_size_type AS ENUM('large','medium','small');
 
 
 CREATE SEQUENCE id_user_seq
@@ -54,6 +54,7 @@ CREATE TABLE "user"(
 	user_type enum_user_type NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	password VARCHAR(255) NOT NULL,
+    mobile_phone VARCHAR(11) NOT NULL,
 	register_date timestamp DEFAULT NOW() NOT NULL
 );
 

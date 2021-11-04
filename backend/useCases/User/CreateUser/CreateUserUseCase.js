@@ -22,6 +22,7 @@ module.exports = class {
             createUserRequestDTO.user_type,
             createUserRequestDTO.email,
             encrypt_password,
+            createUserRequestDTO.mobile_phone,
             createUserRequestDTO.register_date
             );
         

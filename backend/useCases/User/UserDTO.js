@@ -8,7 +8,8 @@ module.exports = {
             address:data.address,
             user_type:data.user_type,
             email:data.email,
-            password:data.password
+            password:data.password,
+            mobile_phone:data.mobile_phone
         }
     },
     UpdateUserRequestDTO:(data) => {

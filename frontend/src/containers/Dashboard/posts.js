@@ -1,11 +1,27 @@
+import { useState } from "react"
 import Header from "../../components/Header/index"
 import Footer from "../../components/Footer/index"
 import AnimalCardPosts from "../../components/AnimalCardPosts"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-import { Layout, Row, Col } from 'antd';
+import { Layout, Row, Col,Select} from 'antd';
+import AnimalPostAdd from "../../components/AnimalPostAdd";
+
 const { Content } = Layout;
+const { Option } = Select;
 const Posts = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const handleOk = (e) => {
+    console.log(e);
+    setIsModalVisible(false);
+  };
+
+
   return (
     <Layout className="layout">
       <Header />
@@ -16,7 +32,7 @@ const Posts = () => {
         'background': '#fff'
       }}>
         <Row justify="space-around">
-          <button className="btn mb-2 mt-0" style={{ marginLeft: "92%" }}>
+          <button className="btn mb-2 mt-0" onClick={toggleModal} style={{ marginLeft: "92%" }}>
             <FontAwesomeIcon
               icon={faPlusSquare}
               size="3x"
@@ -42,10 +58,9 @@ const Posts = () => {
             <AnimalCardPosts />
           </Col>
         </Row>
-        {/* {openCreate && (
-          <ModalCreatePlace open={openCreate} setOpen={setOpenCreate} />
-        )} */}
+
       </Content>
+      <AnimalPostAdd isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={toggleModal} />
       <Footer />
     </Layout>
   )
