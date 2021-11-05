@@ -60,7 +60,7 @@ const Posts = () => {
         </Row>
 
       </Content>
-      <AnimalPostAdd isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={toggleModal} />
+      {isModalVisible?<AnimalPostAdd isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={toggleModal} />:null}
       <Footer />
     </Layout>
   )

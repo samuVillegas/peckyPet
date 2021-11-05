@@ -16,7 +16,7 @@ module.exports = {
             extra_description: data.extra_description,
             size: data.size,
             name_file: data.name_file,
-            url_file: data.url_file,
+            url_file: data.url_file
         }
     }
 

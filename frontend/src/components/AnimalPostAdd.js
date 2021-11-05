@@ -1,3 +1,4 @@
+import {storage} from "../../src/firebase/firebase"
 import {useEffect, useState} from "react"
 import {Modal, Select, Upload, Button, message,Checkbox} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
@@ -35,8 +36,45 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel}) =>{
     getAnimalTypes();
   },[])
 
+  const uploadImage = async(file) => {
+    const storageRef = storage.ref();
+    const spaceRef = storageRef.child(`publications/${sessionStorage.getItem('userId')}/${file.name}`);
+    await spaceRef.put(file);
+    const publicURL = await spaceRef.getDownloadURL();
+    const metada = await spaceRef.getMetadata();
+    return{url: publicURL,name:metada.name}
+  }
+
   const onSubmit = async (values) =>{
-    console.log(values)
+
+    const key = 'updatable';
+    message.loading({ content: 'Realizando publicación...', key });
+
+    //Cargamos la imagen
+    const {url,name} = await uploadImage(values.photo[0]);
+
+    const data = {
+      id_user: parseInt(sessionStorage.getItem('userId')),
+      id_animal_type: values.id_animal_type,
+      race: values.race ,
+      age: values.age,
+      vaccinated_state: values.vaccinated_state,
+      extra_description: values.extra_description,
+      size: values.size,
+      name_file: name,
+      url_file: url
+    }
+
+    //Guardamos los datos en la BD
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}posts`, data).then((res) => res).catch((err) => err);
+
+    if (response.request.status != 201) message.error({ content: 'Error inesperado al realizar publicación', key, duration: 2 });
+    else {
+      message.success({ content: 'Publicación realizada correctamente', key, duration: 2 });
+    };
+
+    //Cerramos el modal
+    handleCancel()
   }
 
   const validateSchema = Yup.object().shape({
@@ -62,7 +100,6 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel}) =>{
           onCancel={handleCancel}
           width={450}
           okText='Publicar'
-         
         >
           <Formik
             initialValues={{

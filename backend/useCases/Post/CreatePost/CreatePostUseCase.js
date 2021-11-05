@@ -14,7 +14,7 @@ module.exports = class {
 
         //Obtener el registro de la tabla file recien creado
         const responseGetFile = await this.fileRepository.getByNameFile(createPostRequestDTO.url_file,createPostRequestDTO.name_file);
-        console.log(responseGetFile)
+        
         //Crear registro en la tabla post
         const post = new Post(
             null,
