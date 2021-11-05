@@ -1,6 +1,6 @@
 const UserRepositoryPostgres = require('../../../repositories/implementations/UserRepositoryPostgres')
-const LoginUserUseCase = require('../LoginUser/LoginUserUseCase');
-const LoginUserController = require('../LoginUser/LoginUserController');
+const LoginUserUseCase = require('./LoginUserUseCase');
+const LoginUserController = require('./LoginUserController');
 
 const userRepositoryPostgres = new UserRepositoryPostgres();
 const loginUserUseCase = new LoginUserUseCase(
