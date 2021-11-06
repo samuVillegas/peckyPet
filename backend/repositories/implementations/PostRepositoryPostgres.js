@@ -32,6 +32,7 @@ module.exports = class extends PostRepository{
         const seqGetPostsByUser = await pool.query(`
         SELECT * FROM "publication"
         INNER JOIN file ON file.id = publication.id_file
+        INNER JOIN animal_type ON animal_type.id = publication.id_animal_type
         WHERE id_user='${userId}'
         ;
         `);

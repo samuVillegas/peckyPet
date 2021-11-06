@@ -35,9 +35,10 @@ module.exports = {
             age: data.age,
             vaccinated_state: data.vaccinated_state,
             extra_description: data.extra_description,
-            size: data.size,
+            size: data.size_type,
             name_file: data.name_file,
-            url_file: data.url_file
+            url_file: data.url_file,
+            animal_name: data.animal_name
         }
     }
 

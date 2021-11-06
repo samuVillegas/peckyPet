@@ -18,7 +18,7 @@ const AutoSubmitPostAdd = () => {
   return null
 }
 
-const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel}) =>{
+const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
 
   const[submit,setSubmit] = useState(false);
   const[animalTypesList, setAnimalTypeList] = useState([]);
@@ -71,6 +71,7 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel}) =>{
     if (response.request.status != 201) message.error({ content: 'Error inesperado al realizar publicación', key, duration: 2 });
     else {
       message.success({ content: 'Publicación realizada correctamente', key, duration: 2 });
+      getPosts();
     };
 
     //Cerramos el modal

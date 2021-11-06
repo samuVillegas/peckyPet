@@ -1,26 +1,41 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Header from "../../components/Header/index"
 import Footer from "../../components/Footer/index"
 import AnimalCardPosts from "../../components/AnimalCardPosts"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-import { Layout, Row, Col,Select} from 'antd';
+import { Layout, Row, Col,message} from 'antd';
 import AnimalPostAdd from "../../components/AnimalPostAdd";
-
+import axios from "axios";
 const { Content } = Layout;
-const { Option } = Select;
+
 const Posts = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [listPosts,setListPosts] = useState([]);
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
-
   const handleOk = (e) => {
-    console.log(e);
     setIsModalVisible(false);
   };
 
+  const getPosts = async () => {
+    const data = {
+      id_user: parseInt(sessionStorage.getItem('userId'))
+    }
+    const key = 'updatable';
+    message.loading({ content: 'Cargando publicaciones', key });
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}posts/by_user`,data).then((res)=>res).catch((err)=>err);
+    if (response.request.status != 200) message.error({ content: 'Error inesperado al cargar las publicaciones', key, duration: 2 });
+    else {
+      setListPosts([...response.data.data])
+    }
+  }
+
+  useEffect(()=>{
+    getPosts();
+  },[])
 
   return (
     <Layout className="layout">
@@ -39,28 +54,15 @@ const Posts = () => {
               color="#001529"
             />
           </button>
-          <Col>
-            <AnimalCardPosts />
-          </Col>
-          <Col>
-            <AnimalCardPosts />
-          </Col>
-          <Col>
-            <AnimalCardPosts />
-          </Col>
-          <Col>
-            <AnimalCardPosts />
-          </Col>
-          <Col>
-            <AnimalCardPosts />
-          </Col>
-          <Col>
-            <AnimalCardPosts />
-          </Col>
+          {listPosts.length>0?
+            listPosts.map((item)=>{
+              return <AnimalCardPosts info={item}/>
+            })
+          :null}
         </Row>
 
       </Content>
-      {isModalVisible?<AnimalPostAdd isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={toggleModal} />:null}
+      {isModalVisible?<AnimalPostAdd isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={toggleModal}  getPosts={getPosts}/>:null}
       <Footer />
     </Layout>
   )
