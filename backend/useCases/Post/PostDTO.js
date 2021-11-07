@@ -19,6 +19,21 @@ module.exports = {
             url_file: data.url_file
         }
     },
+    UpdatePostRequestDTO: (data) => {
+        return {
+            id:data.id,
+            id_user: data.id_user,
+            id_animal_type: data.id_animal_type ,
+            race: data.race ,
+            age: data.age,
+            vaccinated_state: data.vaccinated_state,
+            extra_description: data.extra_description,
+            size: data.size,
+            name_file: data.name_file,
+            url_file: data.url_file,
+            id_file: data.id_file
+        }
+    },
 
     GetPostsByUserRequestDTO: (data) => {
         return {
@@ -27,6 +42,7 @@ module.exports = {
     },
 
     PostResponseDTO: (data) => {
+        console.log(data)
         return {
             id: data.id,
             id_user: data.id_user,
@@ -38,7 +54,8 @@ module.exports = {
             size: data.size_type,
             name_file: data.name_file,
             url_file: data.url_file,
-            animal_name: data.animal_name
+            animal_name: data.animal_name,
+            id_file:data.id_file
         }
     }
 

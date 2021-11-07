@@ -6,19 +6,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { Layout, Row, Col,message} from 'antd';
 import AnimalPostAdd from "../../components/AnimalPostAdd";
+import AnimalPostEdit from "../../components/AnimalPostEdit";
 import axios from "axios";
 const { Content } = Layout;
 
 const Posts = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalAnimalVisible,setIsModalAnimalVisible] = useState(false);
   const [listPosts,setListPosts] = useState([]);
+  const [objEdit,setObjEdit] = useState({});
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
   const handleOk = (e) => {
-    setIsModalVisible(false);
+    setIsModalAnimalVisible(false);
   };
+
+  const toggleModalAnimal = () => {
+    setIsModalAnimalVisible(!isModalAnimalVisible);
+  };
+  const handleOkAnimal = (e) => {
+    setIsModalAnimalVisible(false);
+  };
+
+
 
   const getPosts = async () => {
     const data = {
@@ -56,13 +68,15 @@ const Posts = () => {
           </button>
           {listPosts.length>0?
             listPosts.map((item)=>{
-              return <AnimalCardPosts info={item}/>
+              return <AnimalCardPosts toggleModalAnimal={toggleModalAnimal} info={item} setObjEdit={setObjEdit}/>
             })
           :null}
         </Row>
 
       </Content>
       {isModalVisible?<AnimalPostAdd isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={toggleModal}  getPosts={getPosts}/>:null}
+      {isModalAnimalVisible && Object.keys(objEdit).length>0?<AnimalPostEdit isModalVisible={isModalAnimalVisible} handleOk={handleOkAnimal} handleCancel={toggleModalAnimal}  getPosts={getPosts} pastData={objEdit} setObjEdit={setObjEdit}/> :null}
+      
       <Footer />
     </Layout>
   )

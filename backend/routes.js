@@ -5,6 +5,7 @@ const { loginUserController } = require('./useCases/User/LoginUser');
 const { listAnimalTypeController} = require('./useCases/Post/ListAmimalType')
 const { createPostController } = require('./useCases/Post/CreatePost')
 const { getPostsByUserController } = require('./useCases/Post/GetPostsByUser');
+const { updatePostController } = require('./useCases/Post/UpdatePost');
 const router = Router()
 
 //Users
@@ -32,6 +33,10 @@ router.post('/posts', async (req,res) => {
 
 router.post('/posts/by_user', async (req,res) => {
   return await getPostsByUserController.handle(req,res);
+})
+
+router.put('/posts',async (req,res) => {
+  return await updatePostController.handle(req,res);
 })
 
 

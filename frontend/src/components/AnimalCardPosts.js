@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTrashAlt, faPen } from "@fortawesome/free-solid-svg-icons";
 import {LIST_ENUM_VACCINATED_STATE_OBJ,LIST_ENUM_SIZE_OBJ} from "../constants/enums"
 const { Meta } = Card;
-const AnimalCardPosts = ({info}) => {
+const AnimalCardPosts = ({info,toggleModalAnimal,setObjEdit}) => {
   return (
     <Card
       style={{ width: 300 }}
@@ -23,16 +23,14 @@ const AnimalCardPosts = ({info}) => {
           size="lg"
           key="edit"
           onClick={() => {
-            console.log("hola");
+            setObjEdit({...info});
+            toggleModalAnimal();
           }}
         />,
         <FontAwesomeIcon icon={faEye} size="lg" key="preview" />,
       ]}
     >
       <Meta
-        avatar={
-          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        }
         title={info.animal_name}
         description={<>
           <p><b>Raza</b>:  {info.race}</p>

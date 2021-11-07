@@ -1,6 +1,6 @@
 import {storage} from "../../src/firebase/firebase"
 import {useEffect, useState} from "react"
-import {Modal, Select, Upload, Button, message,Checkbox} from 'antd';
+import {Modal, Select, Upload, Button, message} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Formik, useFormikContext} from "formik"
 import { Form, Input } from "formik-antd"
@@ -10,7 +10,7 @@ import {LIST_ENUM_VACCINATED_STATE, LIST_ENUM_SIZE} from "../constants/enums"
 const {Option} = Select;
 
 
-const AutoSubmitPostAdd = () => {
+const AutoSubmitPostEdit = () => {
   const { values, submitForm } = useFormikContext()
   useEffect(() => {
       submitForm()
@@ -18,12 +18,10 @@ const AutoSubmitPostAdd = () => {
   return null
 }
 
-const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
-
+const AnimalPostEdit = ({isModalVisible,handleOk,handleCancel,getPosts,pastData,setObjEdit}) =>{
   const[submit,setSubmit] = useState(false);
   const[animalTypesList, setAnimalTypeList] = useState([]);
-  
-
+  const[oldPhoto,setOldPhoto] = useState({});
 
   const getAnimalTypes = async () => {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}animal_types`);
@@ -34,7 +32,13 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
   }
 
   useEffect(()=>{
-    
+    setOldPhoto({
+      uid: '1',
+      name: `${pastData.name_file}`,
+      status: 'done',
+      response: 'Server Error 500', // custom error message to show
+      url: `${pastData.url_file}`,
+    });
     getAnimalTypes();
   },[])
 
@@ -48,14 +52,19 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
   }
 
   const onSubmit = async (values) =>{
-
     const key = 'updatable';
-    message.loading({ content: 'Realizando publicación...', key });
-
-    //Cargamos la imagen
-    const {url,name} = await uploadImage(values.photo[0]);
+    message.loading({ content: 'Actualizando publicación...', key });
+    let urlFile = oldPhoto.url;
+    let nameFile = oldPhoto.name;
+    if(values.photo[0].size){
+      //Cargamos la imagen
+      const {url,name} = await uploadImage(values.photo[0]);
+      urlFile = url;
+      nameFile = name;
+    }
 
     const data = {
+      id:pastData.id,
       id_user: parseInt(sessionStorage.getItem('userId')),
       id_animal_type: values.id_animal_type,
       race: values.race ,
@@ -63,21 +72,22 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
       vaccinated_state: values.vaccinated_state,
       extra_description: values.extra_description,
       size: values.size,
-      name_file: name,
-      url_file: url
+      name_file: nameFile,
+      url_file: urlFile,
+      id_file: pastData.id_file
     }
-
     //Guardamos los datos en la BD
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}posts`, data).then((res) => res).catch((err) => err);
+    const response = await axios.put(`${process.env.REACT_APP_API_URL}posts`, data).then((res) => res).catch((err) => err);
 
     if (response.request.status != 201) message.error({ content: 'Error inesperado al realizar publicación', key, duration: 2 });
     else {
-      message.success({ content: 'Publicación realizada correctamente', key, duration: 2 });
+      message.success({ content: 'Publicación actualizada correctamente', key, duration: 2 });
       getPosts();
     };
 
     //Cerramos el modal
     handleCancel()
+
   }
 
   const validateSchema = Yup.object().shape({
@@ -94,7 +104,8 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
 
     return (
         <Modal 
-          title="Publicar animal domestico"
+          title="Editar animal domestico"
+          style={{ top: 35 }}
           visible={isModalVisible}
           onOk={()=>{
                 setSubmit(true)
@@ -102,18 +113,25 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
           }}
           onCancel={handleCancel}
           width={450}
-          okText='Publicar'
-          style={{ top: 35 }}
+          okText='Editar'
+
         >
           <Formik
+            enableReinitialize
             initialValues={{
-                id_animal_type:'',
-                race:'',
-                age:'',
-                photo:[],
-                vaccinated_state:'',
-                size:'',
-                extra_description:''
+                id_animal_type:pastData.id_animal_type,
+                race:pastData.race,
+                age:pastData.age,
+                photo:[{
+                  uid: '1',
+                  name: `${pastData.name_file}`,
+                  status: 'done',
+                  response: 'Server Error 500', // custom error message to show
+                  url: `${pastData.url_file}`,
+                }],
+                vaccinated_state:pastData.vaccinated_state,
+                size:pastData.size,
+                extra_description:pastData.extra_description
             }}
             validationSchema={validateSchema}
             onSubmit={
@@ -135,8 +153,10 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                     <Select
                       name='id_animal_type'
                       placeholder={'Tipo de animal (Obligatorio)'}
+                      value={pastData.id_animal_type}
                       onChange={(e) => {
                         setFieldValue('id_animal_type', e);
+                        setObjEdit({...pastData,id_animal_type:e})
                       }}
                     >
                       {
@@ -150,14 +170,20 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                   >
                     <Input
                       name='race'
-                      placeholder='Raza (Obligatorio)'
+                      value={pastData.race}
+                      onChange={(e)=>{
+                        setObjEdit({...pastData,race:e.target.value})
+                      }}
                     ></Input>
                   </Form.Item>
                   <Form.Item name='age'
                   >
                     <Input
                       name='age'
-                      placeholder='Edad'
+                      value={pastData.age}
+                      onChange={(e)=>{
+                        setObjEdit({...pastData,age:e.target.value})
+                      }}
                     ></Input>
                   </Form.Item>
                   <Form.Item name='vaccinated_state'
@@ -165,8 +191,9 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                     <Select
                       name='vaccinated_state'
                       placeholder={'¿Está vacunado? (Obligatorio)'}
-                      onChange={(e) => {
-                        setFieldValue('vaccinated_state', e);
+                      value={pastData.vaccinated_state}
+                      onChange={(e)=>{
+                        setObjEdit({...pastData,vaccinated_state:e})
                       }}
                     >
                       {
@@ -181,8 +208,9 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                     <Select
                       name='size'
                       placeholder={'Tamaño (Obligatorio)'}
-                      onChange={(e) => {
-                        setFieldValue('size', e);
+                      value={pastData.size}
+                      onChange={(e)=>{
+                        setObjEdit({...pastData,size:e})
                       }}
                     >
                       {
@@ -197,6 +225,10 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                     <Input.TextArea
                       name='extra_description'
                       placeholder='Descripción extra'
+                      value={pastData.extra_description}
+                      onChange={(e)=>{
+                        setObjEdit({...pastData,extra_description:e.target.value})
+                      }}
                     ></Input.TextArea>
                   </Form.Item>
                   <legend> Foto de tu mascota (Obligatorio)</legend>
@@ -209,19 +241,31 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                         maxCount={1}
                         onRemove={()=>{
                             setFieldValue('photo',[])
+                            setObjEdit({...pastData,photo:[]})
                         }}
                         beforeUpload={(e)=>{
                             setFieldValue('photo',[e])
+                            setObjEdit({...pastData,photo:[e]})
                             setTimeout(() => setFieldTouched("photo", true), 100)
                             return false;
                         }}
+
                         onPreview={file => false}
+                        defaultFileList={[
+                          {
+                            uid: '1',
+                            name: `${pastData.name_file}`,
+                            status: 'done',
+                            response: 'Server Error 500', // custom error message to show
+                            url: `${pastData.url_file}`,
+                          }
+                        ]}
                     >
                       <Button icon={<UploadOutlined />}>Clik para cargar imagen</Button>
                     </Upload>
 
                   </Form.Item>
-                  {submit ? <AutoSubmitPostAdd /> : null}
+                  {submit ? <AutoSubmitPostEdit /> : null}
                 </Form>
               )
             }
@@ -231,4 +275,4 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
     )
 }
 
-export default AnimalPostAdd;
+export default AnimalPostEdit;
