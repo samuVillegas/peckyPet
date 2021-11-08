@@ -7,14 +7,19 @@ const HeaderApp = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a rel="noopener noreferrer">Cerrar sesión</a>
+        <a rel="noopener noreferrer" onClick={()=>{
+          sessionStorage.clear();
+          window.location.href = '/signin'
+        }}>Cerrar sesión</a>
       </Menu.Item>
     </Menu>
   );
 
   return (
-    <div className="Header">
-      <Header className="p-0">
+    <div className="Header" >
+      <Header className="p-0" style={{
+        background: 'rgb(50,191,208)'
+      }} >
         <div className="mx-3 float-end">
           <Dropdown overlay={menu} placement="bottomRight">
             <FontAwesomeIcon
@@ -36,10 +41,13 @@ const HeaderApp = () => {
               window.location.pathname = "/dashboard/index";
           }}
           className="p-0"
+          style={{
+            background: 'rgb(50,191,208)'
+          }}
         >
-          <Menu.Item key="adopt">Adoptar</Menu.Item>
-          <Menu.Item key="my_post">Mis publicaciones</Menu.Item>
-          <Menu.Item key="my_interests">Mis intereses</Menu.Item>
+          <Menu.Item className='text-dark' key="adopt">Adoptar</Menu.Item>
+          <Menu.Item className='text-dark' key="my_post">Mis publicaciones</Menu.Item>
+          <Menu.Item className='text-dark' key="my_interests">Mis intereses</Menu.Item>
         </Menu>
       </Header>
     </div>

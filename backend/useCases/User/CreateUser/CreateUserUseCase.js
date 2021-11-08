@@ -1,5 +1,5 @@
 const User = require('../../../entities/User')
-const {encrypt,compare } = require('../../../helpers/passwordSecurity')
+const {encrypt} = require('../../../helpers/passwordSecurity')
 module.exports = class {
     constructor(userRepository){
         this.userRepository = userRepository;
@@ -22,6 +22,7 @@ module.exports = class {
             createUserRequestDTO.user_type,
             createUserRequestDTO.email,
             encrypt_password,
+            createUserRequestDTO.mobile_phone,
             createUserRequestDTO.register_date
             );
         

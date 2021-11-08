@@ -7,6 +7,7 @@ module.exports = class User {
         user_type,
         email,
         password,
+        mobile_phone,
         register_date
     ){
         this.id = id
@@ -15,7 +16,8 @@ module.exports = class User {
         this.address = address
         this.user_type = user_type
         this.email = email
-        this.password = password
+        this.password = password,
+        this.mobile_phone = mobile_phone,
         this.register_date = register_date
     }
 }

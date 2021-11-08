@@ -8,13 +8,14 @@ module.exports = class extends UserRepository{
 
     async persist(userEntity){
         await pool.query(`
-            INSERT INTO "user" (full_name,last_name,address,user_type,email,password)
+            INSERT INTO "user" (full_name,last_name,address,user_type,email,password,mobile_phone)
             VALUES('${userEntity.full_name}',
             '${userEntity.last_name}',
             '${userEntity.address}',
             '${userEntity.user_type}',
             '${userEntity.email}',
-            '${userEntity.password}');
+            '${userEntity.password}',
+            '${userEntity.mobile_phone}');
         `)
     }
 
@@ -39,7 +40,8 @@ module.exports = class extends UserRepository{
             address = '${userEntity.address}',
             user_type = '${userEntity.user_type}',
             email = '${userEntity.email}',
-            password = '${userEntity.password}'
+            password = '${userEntity.password}',
+            mobile_phone = '${userEntity.mobile_phone}')
             WHERE id=${userEntity.id};
         `)
 
