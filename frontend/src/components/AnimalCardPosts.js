@@ -1,9 +1,27 @@
-import { Card, Avatar, Image} from "antd";
+import { Card, message, Image} from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faTrashAlt, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faPen } from "@fortawesome/free-solid-svg-icons";
 import {LIST_ENUM_VACCINATED_STATE_OBJ,LIST_ENUM_SIZE_OBJ} from "../constants/enums"
+import axios from "axios";
 const { Meta } = Card;
-const AnimalCardPosts = ({info,toggleModalAnimal,setObjEdit}) => {
+const AnimalCardPosts = ({info,toggleModalAnimal,setObjEdit,getPosts}) => { 
+  const deletePost = async () => {
+    const key = 'updatable';
+    message.loading({ content: 'Eliminando publicación...', key });
+
+    const data = {
+      id: info.id
+    }
+
+    const response = await axios.delete(`${process.env.REACT_APP_API_URL}posts`, {data}).then((res) => res).catch((err) => err);
+
+    if (response.request.status != 200) message.error({ content: 'Error inesperado al eliminar la publicación', key, duration: 2 });
+    else {
+      message.success({ content: 'Publicación eliminada correctamente', key, duration: 2 });
+      getPosts();
+    };
+  }
+
   return (
     <Card
       style={{ width: 300 }}
@@ -17,7 +35,11 @@ const AnimalCardPosts = ({info,toggleModalAnimal,setObjEdit}) => {
         />
       }
       actions={[
-        <FontAwesomeIcon icon={faTrashAlt} size="lg" key="delete" />,
+        <FontAwesomeIcon icon={faTrashAlt} size="lg" key="delete" 
+          onClick={async ()=>{
+            await deletePost();
+          }}
+        />,
         <FontAwesomeIcon
           icon={faPen}
           size="lg"
@@ -26,8 +48,7 @@ const AnimalCardPosts = ({info,toggleModalAnimal,setObjEdit}) => {
             setObjEdit({...info});
             toggleModalAnimal();
           }}
-        />,
-        <FontAwesomeIcon icon={faEye} size="lg" key="preview" />,
+        />
       ]}
     >
       <Meta

@@ -1,6 +1,6 @@
 import {storage} from "../../src/firebase/firebase"
 import {useEffect, useState} from "react"
-import {Modal, Select, Upload, Button, message,Checkbox} from 'antd';
+import {Modal, Select, Upload, Button, message} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Formik, useFormikContext} from "formik"
 import { Form, Input } from "formik-antd"
@@ -131,10 +131,10 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                 >
                 
                   <Form.Item name='id_animal_type'
+                    label={'Tipo de animal'}
                   >
                     <Select
                       name='id_animal_type'
-                      placeholder={'Tipo de animal (Obligatorio)'}
                       onChange={(e) => {
                         setFieldValue('id_animal_type', e);
                       }}
@@ -147,24 +147,24 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                     </Select>
                   </Form.Item>
                   <Form.Item name='race'
+                    label={'Raza'}
                   >
                     <Input
                       name='race'
-                      placeholder='Raza (Obligatorio)'
                     ></Input>
                   </Form.Item>
                   <Form.Item name='age'
+                    label={'Edad'}
                   >
                     <Input
                       name='age'
-                      placeholder='Edad'
                     ></Input>
                   </Form.Item>
                   <Form.Item name='vaccinated_state'
+                    label={'¿Está vacunado?'}
                   >
                     <Select
                       name='vaccinated_state'
-                      placeholder={'¿Está vacunado? (Obligatorio)'}
                       onChange={(e) => {
                         setFieldValue('vaccinated_state', e);
                       }}
@@ -177,10 +177,10 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                     </Select>
                   </Form.Item>
                   <Form.Item name='size'
+                    label={'Tamaño'}
                   >
                     <Select
                       name='size'
-                      placeholder={'Tamaño (Obligatorio)'}
                       onChange={(e) => {
                         setFieldValue('size', e);
                       }}
@@ -193,10 +193,10 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
                     </Select>
                   </Form.Item>
                   <Form.Item name='extra_description'
+                    label={'Descripción extra'}
                   >
                     <Input.TextArea
                       name='extra_description'
-                      placeholder='Descripción extra'
                     ></Input.TextArea>
                   </Form.Item>
                   <legend> Foto de tu mascota (Obligatorio)</legend>

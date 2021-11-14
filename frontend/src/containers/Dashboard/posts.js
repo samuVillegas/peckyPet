@@ -68,7 +68,7 @@ const Posts = () => {
           </button>
           {listPosts.length>0?
             listPosts.map((item)=>{
-              return <AnimalCardPosts toggleModalAnimal={toggleModalAnimal} info={item} setObjEdit={setObjEdit}/>
+              return <AnimalCardPosts toggleModalAnimal={toggleModalAnimal} info={item} setObjEdit={setObjEdit} getPosts={getPosts}/>
             })
           :null}
         </Row>
