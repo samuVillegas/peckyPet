@@ -14,4 +14,8 @@ module.exports = class {
     get(postId){
         throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
     }
+
+    remove(postId){
+        throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
+    }
 }

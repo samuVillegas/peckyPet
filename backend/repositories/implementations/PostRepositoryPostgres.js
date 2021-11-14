@@ -76,4 +76,11 @@ module.exports = class extends PostRepository{
 
         return seqGetPostById;
     }
+
+    async remove(postId){
+        await pool.query(`
+            DELETE FROM "publication" 
+            WHERE id=${postId}
+        `)
+    }
 }
