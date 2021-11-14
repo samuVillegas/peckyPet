@@ -149,10 +149,10 @@ const AnimalPostEdit = ({isModalVisible,handleOk,handleCancel,getPosts,pastData,
                 >
                 
                   <Form.Item name='id_animal_type'
+                    label={'Tipo de animal'}
                   >
                     <Select
                       name='id_animal_type'
-                      placeholder={'Tipo de animal (Obligatorio)'}
                       value={pastData.id_animal_type}
                       onChange={(e) => {
                         setFieldValue('id_animal_type', e);
@@ -167,6 +167,7 @@ const AnimalPostEdit = ({isModalVisible,handleOk,handleCancel,getPosts,pastData,
                     </Select>
                   </Form.Item>
                   <Form.Item name='race'
+                    label={'Raza'}
                   >
                     <Input
                       name='race'
@@ -177,6 +178,7 @@ const AnimalPostEdit = ({isModalVisible,handleOk,handleCancel,getPosts,pastData,
                     ></Input>
                   </Form.Item>
                   <Form.Item name='age'
+                    label={'Edad'}
                   >
                     <Input
                       name='age'
@@ -187,10 +189,10 @@ const AnimalPostEdit = ({isModalVisible,handleOk,handleCancel,getPosts,pastData,
                     ></Input>
                   </Form.Item>
                   <Form.Item name='vaccinated_state'
+                    label={'¿Está vacunado?'}
                   >
                     <Select
                       name='vaccinated_state'
-                      placeholder={'¿Está vacunado? (Obligatorio)'}
                       value={pastData.vaccinated_state}
                       onChange={(e)=>{
                         setObjEdit({...pastData,vaccinated_state:e})
@@ -204,10 +206,10 @@ const AnimalPostEdit = ({isModalVisible,handleOk,handleCancel,getPosts,pastData,
                     </Select>
                   </Form.Item>
                   <Form.Item name='size'
+                    label={'Tamaño'}
                   >
                     <Select
                       name='size'
-                      placeholder={'Tamaño (Obligatorio)'}
                       value={pastData.size}
                       onChange={(e)=>{
                         setObjEdit({...pastData,size:e})
@@ -221,10 +223,10 @@ const AnimalPostEdit = ({isModalVisible,handleOk,handleCancel,getPosts,pastData,
                     </Select>
                   </Form.Item>
                   <Form.Item name='extra_description'
+                    label={'Descripción extra'}
                   >
                     <Input.TextArea
                       name='extra_description'
-                      placeholder='Descripción extra'
                       value={pastData.extra_description}
                       onChange={(e)=>{
                         setObjEdit({...pastData,extra_description:e.target.value})

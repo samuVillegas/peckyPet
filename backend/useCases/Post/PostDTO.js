@@ -57,7 +57,12 @@ module.exports = {
             animal_name: data.animal_name,
             id_file:data.id_file
         }
-    }
+    },
 
+    DeletePostsRequestDTO: (data) => {
+        return {
+            id: data.id
+        }
+    }
 
 }
