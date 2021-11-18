@@ -22,4 +22,8 @@ module.exports = class {
     remove(postId){
         throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
     }
+
+    getRaces(filter){
+        throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
+    }
 }

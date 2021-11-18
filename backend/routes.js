@@ -8,6 +8,7 @@ const { getPostsByUserController } = require('./useCases/Post/GetPostsByUser');
 const { updatePostController } = require('./useCases/Post/UpdatePost');
 const { deletePostController } = require('./useCases/Post/DeletePost');
 const { getPostsWithFiltersController } = require('./useCases/Adopt/GetPostsWithFilters');
+const { getRacesByFiltersController } = require('./useCases/Adopt/GetRacesByFilters');
 const router = Router()
 
 //Users
@@ -51,5 +52,8 @@ router.post('/posts/filters', async (req,res) => {
   return await getPostsWithFiltersController.handle(req,res);
 })
 
+router.post('/posts/filters/races', async (req,res) => {
+  return await getRacesByFiltersController.handle(req,res);
+})
 
 module.exports = { router }

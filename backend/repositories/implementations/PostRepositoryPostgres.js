@@ -119,4 +119,13 @@ module.exports = class extends PostRepository {
 
         return seqGetPostsWithFilters;
     }
+
+    async getRaces(filter){
+        const seqGetRaces = await pool.query(`
+            SELECT race FROM "publication"
+            WHERE race ILIKE '%${filter}%'
+            LIMIT 10;
+        `);
+        return seqGetRaces;
+    }
 }

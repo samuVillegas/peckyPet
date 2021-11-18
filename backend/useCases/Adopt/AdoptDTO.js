@@ -4,5 +4,10 @@ module.exports = {
             id_user: data.id_user,
             filters: data.filters
         }
+    },
+    GetRacesRequestDTO: (data) => {
+        return {
+            filter: data.filter
+        }
     }
 }
