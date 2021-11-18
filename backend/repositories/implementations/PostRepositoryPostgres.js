@@ -1,12 +1,12 @@
-const PostRepository =  require('../PostRepository')
-const {pool} = require('../../config/db');
+const PostRepository = require('../PostRepository')
+const { pool } = require('../../config/db');
 
-module.exports = class extends PostRepository{
-    constructor(){
+module.exports = class extends PostRepository {
+    constructor() {
         super();
     }
 
-    async persist(postEntity){
+    async persist(postEntity) {
         await pool.query(`INSERT INTO "publication"
         (id_user,
         id_animal_type,
@@ -28,7 +28,7 @@ module.exports = class extends PostRepository{
         `);
     }
 
-    async getByUser(userId){
+    async getByUser(userId) {
         const seqGetPostsByUser = await pool.query(`
         SELECT publication.id,
             publication.id_user,
@@ -50,7 +50,7 @@ module.exports = class extends PostRepository{
         return seqGetPostsByUser.rows;
     }
 
-    async merge(postEntity){
+    async merge(postEntity) {
         await pool.query(`
             UPDATE "publication" SET 
             id_animal_type=${postEntity.id_animal_type},
@@ -65,7 +65,7 @@ module.exports = class extends PostRepository{
         `)
     }
 
-    async get(postId){
+    async get(postId) {
         const seqGetPostById = await pool.query(`
             SELECT FROM "publication"
             INNER JOIN file ON file.id = publication.id_file
@@ -77,10 +77,46 @@ module.exports = class extends PostRepository{
         return seqGetPostById;
     }
 
-    async remove(postId){
+    async remove(postId) {
         await pool.query(`
             DELETE FROM "publication" 
             WHERE id=${postId}
         `)
+    }
+
+    async getPostsWithFilters(id_user,filters) {
+        const fields = ["id_animal_type", "race", "age", "vaccinated_state", "size_type"]
+        let conditions = '';
+        fields.forEach(columnName => {
+            if(filters[`${columnName}`]){
+                filters[`${columnName}`].forEach(filterItem => {
+                    conditions += `${columnName}=`;
+                    typeof(filterItem) == 'string' ? conditions += `'${filterItem}' OR ` : conditions += `${filterItem} OR `
+                })
+                conditions = conditions.slice(0,-3);
+                conditions+=' AND ';
+            }  
+        })
+        conditions = conditions.slice(0,-4);
+        const seqGetPostsWithFilters = await pool.query(`
+                SELECT publication.id,
+                publication.id_user,
+                publication.id_animal_type,
+                publication.race,
+                publication.age,
+                publication.vaccinated_state,
+                publication.extra_description,
+                publication.size_type,
+                file.name_file,
+                file.url_file,
+                animal_type.animal_name,
+                publication.id_file
+                FROM "publication"
+                INNER JOIN file ON file.id = publication.id_file
+                INNER JOIN animal_type ON animal_type.id = publication.id_animal_type
+                WHERE "publication".id_user != ${id_user} ${conditions.length>0?' AND '+conditions:''}
+        `);
+
+        return seqGetPostsWithFilters;
     }
 }
