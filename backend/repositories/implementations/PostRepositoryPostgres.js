@@ -128,4 +128,13 @@ module.exports = class extends PostRepository {
         `);
         return seqGetRaces;
     }
+
+    async getAges(filter){
+        const seqGetAges = await pool.query(`
+            SELECT age FROM "publication"
+            WHERE age ILIKE '%${filter}%'
+            LIMIT 10;
+        `);
+        return seqGetAges;
+    }
 }

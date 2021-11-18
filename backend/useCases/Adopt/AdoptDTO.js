@@ -9,5 +9,10 @@ module.exports = {
         return {
             filter: data.filter
         }
+    },
+    GetAgesRequestDTO: (data) => {
+        return {
+            filter: data.filter
+        }
     }
 }

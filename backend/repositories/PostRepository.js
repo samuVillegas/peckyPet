@@ -26,4 +26,8 @@ module.exports = class {
     getRaces(filter){
         throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
     }
+
+    getAges(filter){
+        throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
+    }
 }
