@@ -10,7 +10,7 @@ module.exports = class {
         try{
             const posts = await this.getPostsWithFilersUseCase.execute(GetPostsWithFiltersRequestDTO(req.body));
             return res.status(200).json({
-                data: posts,
+                data: posts.rows,
                 message: 'Posts successfully obtained'
             })
         }catch(e){

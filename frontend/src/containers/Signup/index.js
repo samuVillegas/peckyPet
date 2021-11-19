@@ -3,6 +3,7 @@ import {Form,Input} from "formik-antd"
 import { Button, Row,Col,Select,message} from "antd";
 import * as Yup from 'yup'
 import axios from "axios";
+import { UserOutlined, LockOutlined, HomeOutlined, MobileOutlined} from '@ant-design/icons';
 const {Option} = Select;
 
 const Signup = () => {
@@ -53,119 +54,79 @@ return (
                         validationSchema={validateSchema}
                     >{
                         ({setFieldValue})=>(
-                            <Form name="basic"
-                            className='mt-3 bg-white'
+                            <Form 
+                            name="normal_login"
+                            className="login-form"
+                            style={{
+                                maxWidth: '400px'
+                            }}
                         >
-                            <Row>
-                                <Col>
-                                <span className='text-danger'>*</span>
-                                </Col>
-                                <Col>
-                                    <Form.Item name='email'>
-                                        <Input
-                                            name='email'
-                                            placeholder='Email'
-                                        ></Input>
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                            
-                            <Row>
-                                <Col>
-                                    <span className='text-danger'>*</span>
-                                </Col>
-                                <Col>
-                                <Form.Item name='password'>
-                                    <Input
-                                        name='password'
-                                        placeholder='Contraseña'
-                                        type='password'
-                                    ></Input>
-                                </Form.Item>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <span className='text-danger'>*</span>
-                                </Col>
-                                <Col>
-                                <Form.Item name='full_name'>
-                                    <Input
-                                        name='full_name'
-                                        placeholder='Nombre(s)'
-                                    ></Input>
-                                </Form.Item>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <span className='text-danger'>*</span>
-                                </Col>
-                                <Col>
-                                <Form.Item name='last_name'>
-                                    <Input
-                                        name='last_name'
-                                        placeholder='Apellido(s)'
-                                    ></Input>
-                                </Form.Item>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <span className='text-danger'>*</span>
-                                </Col>
-                                <Col>
-                                <Form.Item name='address'>
-                                    <Input
-                                        name='address'
-                                        placeholder='Dirección'
-                                    ></Input>
-                                </Form.Item>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <span className='text-danger'>*</span>
-                                </Col>
-                                <Col>
-                                <Form.Item name='user_type'>
-                                    <Select
-                                        name='user_type'
-                                        placeholder={'Tipo de usuario'}
-                                        onChange={(e)=>{
-                                            setFieldValue('user_type',e);
-                                        }}
-                                        >
-                                        <Option value="person">Persona</Option>
-                                        <Option value="organization">Organización</Option>
-                                    </Select>
-                                </Form.Item>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <span className='text-danger'>*</span>
-                                </Col>
-                                <Col>
-                                <Form.Item name='mobile_phone'>
-                                    
-                                    <Input
-                                        name='mobile_phone'
-                                        placeholder='Número celular'
-                                    >
-                                    </Input>
-                                </Form.Item>
-                                </Col>
-                            </Row>
-
-                            <Form.Item name='accept'>
-                                <Button type='primary' htmlType="submit">Aceptar</Button>
+   
+                            <Form.Item name='email'>
+                                <Input name='email' prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Correo" />
                             </Form.Item>
-                            <Row>
-                                <Col className='bg-red' span={8}>
-                                    <a href='/signin'>Iniciar Sesión</a>
-                                </Col>
-                            </Row>
+    
+                            <Form.Item name='password'>
+                                <Input.Password
+                                    name='password'
+                                    placeholder='Contraseña'
+                                    type='password'
+                                    prefix={<LockOutlined className="site-form-item-icon" />}
+                                ></Input.Password>
+                            </Form.Item>
+                            <Form.Item name='full_name'>
+                                <Input
+                                    name='full_name'
+                                    placeholder='Nombre(s)'
+                                    prefix={<UserOutlined className="site-form-item-icon" />}
+                                ></Input>
+                            </Form.Item>
+                            <Form.Item name='last_name'>
+                                <Input
+                                    name='last_name'
+                                    placeholder='Apellido(s)'
+                                    prefix={<UserOutlined className="site-form-item-icon" />}
+                                ></Input>
+                            </Form.Item>
+                            <Form.Item name='address'>
+                                <Input
+                                    name='address'
+                                    placeholder='Dirección'
+                                    prefix={<HomeOutlined className="site-form-item-icon" />}
+                                ></Input>
+                            </Form.Item>
+                            <Form.Item name='user_type'>
+                                <Select
+                                    name='user_type'
+                                    placeholder={'Tipo de usuario'}
+                                    onChange={(e)=>{
+                                        setFieldValue('user_type',e);
+                                    }}
+                                    >
+                                    <Option value="person">Persona</Option>
+                                    <Option value="organization">Organización</Option>
+                                </Select>
+                            </Form.Item>
+                            <Form.Item name='mobile_phone'>
+                                
+                                <Input
+                                    name='mobile_phone'
+                                    placeholder='Número celular'
+                                    prefix={<MobileOutlined className="site-form-item-icon" />}
+                                >
+                                </Input>
+                            </Form.Item>
+
+                            <Form.Item name='sub'>
+                                <Button type="primary" htmlType="submit" className="login-form-button"
+                                    style={{
+                                        width: '100%'
+                                    }}
+                                >
+                                    Registrar
+                                </Button>
+                                O  <a href="/signin">Ingresa ahora!</a>
+                            </Form.Item>
                         </Form>
                         )
                     }
