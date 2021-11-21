@@ -89,50 +89,52 @@ module.exports = class extends PostRepository {
         let conditions = '';
         fields.forEach(columnName => {
             if(filters[`${columnName}`]){
+                if(filters[`${columnName}`].length>0) conditions += '(';
                 filters[`${columnName}`].forEach(filterItem => {
-                    conditions += `${columnName}=`;
-                    typeof(filterItem) == 'string' ? conditions += `'${filterItem}' OR ` : conditions += `${filterItem} OR `
+                    conditions += `${columnName}`;
+                    typeof(filterItem) == 'string' ? conditions += `::text ILIKE '${filterItem}' OR ` : conditions += `=${filterItem} OR `
                 })
                 conditions = conditions.slice(0,-3);
+                conditions += ')';
                 conditions+=' AND ';
             }  
         })
         conditions = conditions.slice(0,-4);
+        console.log(conditions)
         const seqGetPostsWithFilters = await pool.query(`
-                SELECT publication.id,
-                publication.id_user,
-                publication.id_animal_type,
-                publication.race,
-                publication.age,
-                publication.vaccinated_state,
-                publication.extra_description,
-                publication.size_type,
-                file.name_file,
-                file.url_file,
-                animal_type.animal_name,
-                publication.id_file
-                FROM "publication"
-                INNER JOIN file ON file.id = publication.id_file
-                INNER JOIN animal_type ON animal_type.id = publication.id_animal_type
-                WHERE "publication".id_user != ${id_user} ${conditions.length>0?' AND '+conditions:''}
-        `);
-
+        SELECT publication.id,
+        publication.id_user,
+        publication.id_animal_type,
+        publication.race,
+        publication.age,
+        publication.vaccinated_state,
+        publication.extra_description,
+        publication.size_type,
+        file.name_file,
+        file.url_file,
+        animal_type.animal_name,
+        publication.id_file
+        FROM "publication"
+        INNER JOIN file ON file.id = publication.id_file
+        INNER JOIN animal_type ON animal_type.id = publication.id_animal_type
+        WHERE "publication".id_user != ${id_user} ${conditions.length>0?' AND '+conditions:''}
+`);
         return seqGetPostsWithFilters;
     }
 
-    async getRaces(filter){
+    async getRaces(id_user,filter){
         const seqGetRaces = await pool.query(`
             SELECT race FROM "publication"
-            WHERE race ILIKE '%${filter}%'
+            WHERE id_user != ${id_user} AND race ILIKE '%${filter}%'
             LIMIT 10;
         `);
         return seqGetRaces;
     }
 
-    async getAges(filter){
+    async getAges(id_user,filter){
         const seqGetAges = await pool.query(`
             SELECT age FROM "publication"
-            WHERE age ILIKE '%${filter}%'
+            WHERE id_user != ${id_user} AND age ILIKE '%${filter}%'
             LIMIT 10;
         `);
         return seqGetAges;

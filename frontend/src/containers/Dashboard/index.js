@@ -27,6 +27,7 @@ const Dashboard = () => {
 
   const getRaces = async (filter) => {
     const data = {
+        "id_user": sessionStorage.getItem('userId'),
         "filter":filter
     }
     const response = await axios.post(`${process.env.REACT_APP_API_URL}posts/filters/races`,data);
@@ -38,6 +39,7 @@ const Dashboard = () => {
 
   const getAges = async (filter) => {
     const data = {
+        "id_user":sessionStorage.getItem("userId"),
         "filter":filter
     }
     const response = await axios.post(`${process.env.REACT_APP_API_URL}posts/filters/ages`,data);
@@ -47,10 +49,10 @@ const Dashboard = () => {
     }
   }
 
-  const getPosts = async () => {
+  const getPosts = async (filterParams) => {
     const data = {
       "id_user": sessionStorage.getItem('userId'),
-      "filters": filters
+      "filters": filterParams
     }
     const response = await axios.post(`${process.env.REACT_APP_API_URL}posts/filters`,data);
     if(response.request.status !== 200) message.error('Error al traer datos');
@@ -59,11 +61,22 @@ const Dashboard = () => {
     }
   }
 
+
+  const sendFilter = async (propierty,actuaDataPropierty) => {
+    console.log(propierty,actuaDataPropierty)
+    const auxFilters = {
+      ...filters,
+      [propierty]:actuaDataPropierty.length>0?actuaDataPropierty:undefined
+    }
+    setFilters(auxFilters)
+    await getPosts(auxFilters);
+  }
+
   useEffect(()=>{
     getRaces("");
     getAges("");
     getAnimalTypes();
-    getPosts();
+    getPosts({});
   },[])
 
 
@@ -86,6 +99,7 @@ const Dashboard = () => {
                 placeholder={'Tipo de animal'}
                 style={{ width: '300px' }}
                 className='m-1'
+                onChange= {async (e)=> await sendFilter('id_animal_type',e)}
               >
                 {
                         animalTypesList?.map((animal)=>{
@@ -102,9 +116,7 @@ const Dashboard = () => {
                 placeholder={'Raza'}
                 style={{ width: '300px' }}
                 className='m-1'
-                onChange={(e,item)=>{
-                  console.log('hola',e,item);
-                }}
+                onChange= {async (e)=> await sendFilter('race',e)}
                 onSearch={(e)=>{
                   getRaces(e)
                 }}
@@ -123,9 +135,7 @@ const Dashboard = () => {
                 placeholder={'Edad'}
                 style={{ width: '300px' }}
                 className='m-1'
-                onChange={(e,item)=>{
-                  console.log('hola',e,item);
-                }}
+                onChange= {async (e)=> await sendFilter('age',e)}
                 onSearch={(e)=>{
                   getAges(e)
                 }}
@@ -143,6 +153,7 @@ const Dashboard = () => {
                 placeholder={'¿Está vacunado?'}
                 style={{ width: '300px' }}
                 className='m-1'
+                onChange= {async (e)=> await sendFilter('vaccinated_state',e)}
               >
                 {
                         LIST_ENUM_VACCINATED_STATE?.map((vacc)=>{
@@ -157,6 +168,7 @@ const Dashboard = () => {
                 placeholder={'Tamaño'}
                 style={{ width: '300px' }}
                 className='m-1'
+                onChange= {async (e)=> await sendFilter('size_type',e)}
               >
                 {
                         LIST_ENUM_SIZE ?.map((vacc)=>{

@@ -6,7 +6,7 @@ module.exports = class {
     }
 
     async execute(getAgesRequestDTO){
-        const {rows} = await this.postRepository.getAges(getAgesRequestDTO.filter);
+        const {rows} = await this.postRepository.getAges(getAgesRequestDTO.id_user,getAgesRequestDTO.filter);
         const agesWithoutRepeatArray = [];
         const setAges = new Set();
         rows.forEach(element => {

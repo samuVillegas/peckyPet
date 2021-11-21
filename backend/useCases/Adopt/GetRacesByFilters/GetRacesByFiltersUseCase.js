@@ -6,7 +6,7 @@ module.exports = class {
     }
 
     async execute(getRacesRequestDTO){
-        const {rows} = await this.postRepository.getRaces(getRacesRequestDTO.filter);
+        const {rows} = await this.postRepository.getRaces(getRacesRequestDTO.id_user,getRacesRequestDTO.filter);
         const racesWithoutRepeatArray = [];
         const setRaces = new Set();
         rows.forEach(element => {

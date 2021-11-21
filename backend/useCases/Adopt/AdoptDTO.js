@@ -7,11 +7,13 @@ module.exports = {
     },
     GetRacesRequestDTO: (data) => {
         return {
+            id_user: data.id_user,
             filter: data.filter
         }
     },
     GetAgesRequestDTO: (data) => {
         return {
+            id_user: data.id_user,
             filter: data.filter
         }
     }

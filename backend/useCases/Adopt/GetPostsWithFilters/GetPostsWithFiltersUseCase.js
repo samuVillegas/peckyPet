@@ -1,4 +1,5 @@
 'use strict'
+const {PostResponseDTO} = require('../../Post/PostDTO')
 
 module.exports = class {
     constructor(postRepository){
@@ -6,6 +7,7 @@ module.exports = class {
     }
 
     async execute(getPostsWithFiltersRequestDTO){
-        return this.postRepository.getPostsWithFilters(getPostsWithFiltersRequestDTO.id_user,getPostsWithFiltersRequestDTO.filters);
+        const {rows} = await this.postRepository.getPostsWithFilters(getPostsWithFiltersRequestDTO.id_user,getPostsWithFiltersRequestDTO.filters);
+        return rows.map(PostResponseDTO);
     }
 }
