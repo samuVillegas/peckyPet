@@ -1,10 +1,10 @@
-import { Card, Image } from "antd";
+import { Card, Image, Modal } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import {LIST_ENUM_VACCINATED_STATE_OBJ,LIST_ENUM_SIZE_OBJ} from "../constants/enums"
+import { LIST_ENUM_VACCINATED_STATE_OBJ, LIST_ENUM_SIZE_OBJ } from "../constants/enums"
 const { Meta } = Card;
-const AnimalCard = ({info}) => {
+const AnimalCard = ({ info, toggleModalAnimalDescription }) => {
   return (
     <Card
       style={{ width: 300 }}
@@ -18,9 +18,9 @@ const AnimalCard = ({info}) => {
         />
       }
       actions={[
-        <FontAwesomeIcon icon={faHeart} size="lg" key="delete" 
-          onClick={async ()=>{
-            
+        <FontAwesomeIcon icon={faHeart} size="lg" key="delete"
+          onClick={async () => {
+
           }}
         />,
         <FontAwesomeIcon
@@ -28,7 +28,18 @@ const AnimalCard = ({info}) => {
           size="lg"
           key="edit"
           onClick={() => {
-            
+            Modal.info({
+              title: 'Información del animal domestico',
+              content: (<>
+                <div class="alert alert-primary text-center" role="alert">
+                  <img src={info.url_file} className="img-thumbnail" alt="Responsive image"></img>
+                  <h6><b>Tipo de animal:</b> {info.animal_name} </h6>
+                </div>
+              </>),
+              width: '500px'
+            }
+
+            )
           }}
         />
       ]}
