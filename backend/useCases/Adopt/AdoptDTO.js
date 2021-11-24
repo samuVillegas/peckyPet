@@ -16,5 +16,16 @@ module.exports = {
             id_user: data.id_user,
             filter: data.filter
         }
+    },
+    ShowInterestRequestDTO: (data) => {
+        return {
+            id_user: data.id_user,
+            id_publication: data.id_publication
+        }
+    },
+    RemoveInterestRequestDTO: (data) => {
+        return {
+            id: data.id
+        }
     }
 }
