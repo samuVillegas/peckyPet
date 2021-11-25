@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Header from "../../components/Header/index"
 import Footer from "../../components/Footer/index"
 import AnimalCard from "../../components/AnimalCard"
-import { Layout, Row, Col, Card, Select, message} from 'antd';
+import { Layout, Row, Col, Card, Select, message,Checkbox } from 'antd';
 import { LIST_ENUM_VACCINATED_STATE, LIST_ENUM_SIZE } from "../../constants/enums"
 import axios from "axios";
 const { Content } = Layout;
@@ -14,7 +14,9 @@ const Dashboard = () => {
   const [racesList, setRacesList] = useState([]);
   const [agesList, setAgesList] = useState([]);
   const [listPosts, setListPosts] = useState([]);
+  const [auxlistPosts, setAuxListPosts] = useState([]);
   const [filters, setFilters] = useState({});  
+  const [optionFilterInterest,setOptionFilterInterest] = useState(3);
 
   const getAnimalTypes = async () => {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}animal_types`);
@@ -56,7 +58,8 @@ const Dashboard = () => {
     const response = await axios.post(`${process.env.REACT_APP_API_URL}posts/filters`, data);
     if (response.request.status !== 200) message.error('Error al traer datos');
     else {
-      setListPosts([...response.data.data])
+      setListPosts([...response.data.data]);
+      setAuxListPosts([...response.data.data]);
     }
   }
 
@@ -69,6 +72,27 @@ const Dashboard = () => {
     setFilters(auxFilters)
     await getPosts(auxFilters);
   }
+
+
+  // const filterInterestGeneral = (option) => {
+  //   if(option != 3){
+  //     const arrFiltered = [];
+  //     auxlistPosts.forEach(item => {
+  //       if(option == 1 && item.id_interest !== null ) arrFiltered.push(item)
+  //       if(option == 2 && item.id_interest === null ) arrFiltered.push(item)
+  //     })
+  //     setListPosts(arrFiltered);
+  //   }else{
+  //     setListPosts(auxlistPosts)
+  //   }
+
+    
+  // }
+
+  // useEffect(()=>{
+  //   filterInterestGeneral(optionFilterInterest);
+  // },[optionFilterInterest])
+
 
   useEffect(() => {
     getRaces("");
@@ -176,6 +200,22 @@ const Dashboard = () => {
               </Select>
 
             </Col>
+
+            <Col>
+                <Select
+                  name='interest'
+                  placeholder='Intereses'
+                  className='m-1'
+                  style={{ width: '300px' }}
+                  onChange={async (e) =>{
+                    setOptionFilterInterest(e);
+                  }}
+                >
+                  <Option key={1}> Mis intereses</Option>
+                  <Option key={2}> Otros </Option>
+                  <Option key={3}> Todos </Option>
+                </Select>
+            </Col>
           </Row>
 
         </Card>
@@ -183,7 +223,7 @@ const Dashboard = () => {
         <Row justify="space-around">
           {listPosts.length > 0 ?
             listPosts.map((item) => {
-              return <AnimalCard info={item}/>
+              return (optionFilterInterest == 1 && item.id_interest !== null) || (optionFilterInterest == 2 && item.id_interest === null ) || (optionFilterInterest == 3)? <AnimalCard info={item}/>: null
             })
             : null}
         </Row>

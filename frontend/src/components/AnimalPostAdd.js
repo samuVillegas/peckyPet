@@ -48,7 +48,6 @@ const AnimalPostAdd = ({isModalVisible,handleOk,handleCancel,getPosts}) =>{
   }
 
   const onSubmit = async (values) =>{
-
     const key = 'updatable';
     message.loading({ content: 'Realizando publicación...', key });
 

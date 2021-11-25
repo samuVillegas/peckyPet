@@ -8,12 +8,11 @@ const {regularFaHeart} = require('../utilities/regularIcons')
 const { Meta } = Card;
 
 
-const AnimalCard = ({ info, toggleModalAnimalDescription }) => {
+const AnimalCard = ({ info}) => {
 
   const [toggleIcon,setToggleIcon] = useState(info.id_interest !== null);
   const [interestId,setInterestId] = useState(info.id_interest);
 
-  
   const showInterest = async () => {
     if(interestId !== null) return 1;
     const data = {
