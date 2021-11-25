@@ -42,7 +42,12 @@ module.exports = {
             url_file: data.url_file,
             animal_name: data.animal_name,
             id_file:data.id_file,
-            id_interest: data.id_interest
+            id_interest: data.id_interest,
+            full_name:data.full_name,
+            last_name:data.last_name,
+            user_type:data.user_type,
+            address:data.address,
+            mobile_phone:data.mobile_phone,
         }
     }
 }

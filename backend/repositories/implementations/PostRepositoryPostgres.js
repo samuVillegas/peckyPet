@@ -113,6 +113,11 @@ module.exports = class extends PostRepository {
             file.url_file,
             animal_type.animal_name,
             publication.id_file,
+            "user".full_name,
+            "user".last_name,
+            "user".user_type,
+            "user".address,
+            "user".mobile_phone,
             (SELECT interest.id FROM interest 
                 WHERE interest.id_publication = publication.id
                 AND interest.id_user = ${id_user}
@@ -121,6 +126,7 @@ module.exports = class extends PostRepository {
             FROM "publication"
             INNER JOIN file ON file.id = publication.id_file
             INNER JOIN animal_type ON animal_type.id = publication.id_animal_type
+            INNER JOIN "user" ON "user".id = publication.id_user
             WHERE "publication".id_user != ${id_user} ${conditions.length > 0 ? ' AND ' + conditions : ''}
 `);
         return seqGetPostsWithFilters;

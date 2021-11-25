@@ -68,11 +68,21 @@ const AnimalCard = ({ info}) => {
           key="edit"
           onClick={() => {
             Modal.info({
-              title: 'Información del animal domestico',
+              title: '',
               content: (<>
+                <legend>Información del animal</legend>
                 <div class="alert alert-primary text-center" role="alert">
-                  <img src={info.url_file} className="img-thumbnail" alt="Responsive image"></img>
                   <h6><b>Tipo de animal:</b> {info.animal_name} </h6>
+                  <h6><b>Edad:</b> {info.age} </h6>
+                  <h6><b>Raza:</b> {info.race} </h6>
+                  <h6><b>Tamaño:</b> {info.size} </h6>
+                  <h6><b>Descripción extra:</b> {info.extra_description} </h6>
+                  <h6><b>Tipo de animal:</b> {info.animal_name} </h6>
+                </div>
+                <legend>Información de usuario que publica</legend>
+                <div class="alert alert-primary text-center" role="alert">
+                  <h6><b>Nombre:</b> {info.full_name} {info.last_name} </h6>
+                  <h6><b>Celular:</b> {info.mobile_phone} </h6>
                 </div>
               </>),
               width: '500px'
