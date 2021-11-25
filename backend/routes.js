@@ -67,7 +67,7 @@ router.post('/post/show-interest', async (req,res) => {
   return await showInterestController.handle(req,res);
 })
 
-router.delete('/post/remove-interest', async (req,res) => {
+router.delete('/post/remove-interest/:id', async (req,res) => {
   return await removeInterestController.handle(req,res);
 })
 module.exports = { router }

@@ -20,6 +20,7 @@ module.exports = class {
             null
         )
 
-        await this.interestRepository.persist(interest);
+        const {rows} = await this.interestRepository.persist(interest);
+        return rows[0];
     }
 }

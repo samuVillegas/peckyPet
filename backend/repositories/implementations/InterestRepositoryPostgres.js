@@ -5,9 +5,11 @@ const { pool } = require('../../config/db');
 
 module.exports = class extends InterestRepository{
     async persist(interestEntity){
-        pool.query(`
-            INSERT INTO interest(id_user,id_publication) VALUES (${interestEntity.id_user},${interestEntity.id_publication});
+       const seqCreateInterest = await pool.query(`
+            INSERT INTO interest(id_user,id_publication) VALUES (${interestEntity.id_user},${interestEntity.id_publication})
+            RETURNING id;
         `);
+        return seqCreateInterest;
     }
 
     async remove(interestId){

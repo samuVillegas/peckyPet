@@ -9,8 +9,9 @@ module.exports =  class {
 
     async handle(req,res){
         try{
-            await this.showInterestUseCase.execute(ShowInterestRequestDTO(req.body));
+            const interestResponse =  await this.showInterestUseCase.execute(ShowInterestRequestDTO(req.body));
             return res.status(200).json({
+                data: interestResponse,
                 message: 'Interest created'
             })
         }catch(e){

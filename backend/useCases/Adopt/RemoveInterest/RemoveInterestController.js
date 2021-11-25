@@ -8,7 +8,7 @@ module.exports = class {
 
     async handle(req,res){
         try{
-            await this.removeInterestUseCase.execute(RemoveInterestRequestDTO(req.body));
+            await this.removeInterestUseCase.execute(RemoveInterestRequestDTO(req.params));
             return res.status(200).json({
                 message: 'Interest deleted'
             })

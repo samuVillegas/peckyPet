@@ -1,10 +1,47 @@
-import { Card, Image, Modal } from "antd";
+import {useState} from "react"
+import { Card, Image, Modal, message} from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { LIST_ENUM_VACCINATED_STATE_OBJ, LIST_ENUM_SIZE_OBJ } from "../constants/enums"
+import axios from "axios";
+const {solidFaEye,solidFaHeart} = require('../utilities/solidIcons')
+const {regularFaHeart} = require('../utilities/regularIcons')
 const { Meta } = Card;
+
+
 const AnimalCard = ({ info, toggleModalAnimalDescription }) => {
+
+  const [toggleIcon,setToggleIcon] = useState(info.id_interest !== null);
+  const [interestId,setInterestId] = useState(info.id_interest);
+
+  
+  const showInterest = async () => {
+    if(interestId !== null) return 1;
+    const data = {
+      "id_user": sessionStorage.getItem('userId'),
+      "id_publication": info.id
+    }
+
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}post/show-interest`,data).then(res=>res).catch(err=>err);
+    if (response.request.status != 200) {
+      message.error('Error al mostrar interes');
+      return 1;
+    }
+    setInterestId(response.data.data.id)
+    return 2;
+  }
+
+  const removeInterest = async () => {
+    if(interestId === null) return 1;
+    const response = await axios.delete(`${process.env.REACT_APP_API_URL}post/remove-interest/${interestId}`).then(res=>res).catch(err=>err);
+    if (response.request.status != 200) {
+      message.error('Error al eliminar interes');
+      return 1;
+    }
+    setInterestId(null)
+    return 2;
+  }
+
+
   return (
     <Card
       style={{ width: 300 }}
@@ -18,13 +55,16 @@ const AnimalCard = ({ info, toggleModalAnimalDescription }) => {
         />
       }
       actions={[
-        <FontAwesomeIcon icon={faHeart} size="lg" key="delete"
+        <FontAwesomeIcon icon={toggleIcon?solidFaHeart:regularFaHeart} size="lg" key="delete"
           onClick={async () => {
-
+            let responseRequest;
+            if(toggleIcon) responseRequest = await removeInterest();
+            else responseRequest = await showInterest();
+            if(responseRequest !== 1) setToggleIcon(!toggleIcon);
           }}
         />,
         <FontAwesomeIcon
-          icon={faEye}
+          icon={solidFaEye}
           size="lg"
           key="edit"
           onClick={() => {
@@ -38,7 +78,6 @@ const AnimalCard = ({ info, toggleModalAnimalDescription }) => {
               </>),
               width: '500px'
             }
-
             )
           }}
         />
