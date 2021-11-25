@@ -75,9 +75,8 @@ const AnimalCard = ({ info}) => {
                   <h6><b>Tipo de animal:</b> {info.animal_name} </h6>
                   <h6><b>Edad:</b> {info.age} </h6>
                   <h6><b>Raza:</b> {info.race} </h6>
-                  <h6><b>Tamaño:</b> {info.size} </h6>
+                  <h6><b>Tamaño:</b> {LIST_ENUM_SIZE_OBJ[`${info.size}`]} </h6>
                   <h6><b>Descripción extra:</b> {info.extra_description} </h6>
-                  <h6><b>Tipo de animal:</b> {info.animal_name} </h6>
                 </div>
                 <legend>Información de usuario que publica</legend>
                 <div class="alert alert-primary text-center" role="alert">
