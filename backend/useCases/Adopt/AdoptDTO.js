@@ -48,6 +48,7 @@ module.exports = {
             user_type:data.user_type,
             address:data.address,
             mobile_phone:data.mobile_phone,
+            number_reactions:data.number_reactions
         }
     }
 }

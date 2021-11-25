@@ -41,7 +41,10 @@ module.exports = class extends PostRepository {
             file.name_file,
             file.url_file,
             animal_type.animal_name,
-            publication.id_file
+            publication.id_file,
+            (SELECT COUNT(*) FROM interest
+                WHERE interest.id_publication = publication.id
+            ) AS number_reactions
             FROM "publication"
             INNER JOIN file ON file.id = publication.id_file
             INNER JOIN animal_type ON animal_type.id = publication.id_animal_type
@@ -122,7 +125,10 @@ module.exports = class extends PostRepository {
                 WHERE interest.id_publication = publication.id
                 AND interest.id_user = ${id_user}
                 LIMIT 1
-            ) AS id_interest
+            ) AS id_interest,
+            (SELECT COUNT(*) FROM interest
+                WHERE interest.id_publication = publication.id
+            ) AS number_reactions
             FROM "publication"
             INNER JOIN file ON file.id = publication.id_file
             INNER JOIN animal_type ON animal_type.id = publication.id_animal_type
