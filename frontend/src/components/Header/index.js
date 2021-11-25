@@ -47,7 +47,7 @@ const HeaderApp = () => {
         >
           <Menu.Item className='text-dark' key="adopt">Adoptar</Menu.Item>
           <Menu.Item className='text-dark' key="my_post">Mis publicaciones</Menu.Item>
-          <Menu.Item className='text-dark' key="my_interests">Mis intereses</Menu.Item>
+          {/* <Menu.Item className='text-dark' key="my_interests">Mis intereses</Menu.Item> */}
         </Menu>
       </Header>
     </div>
