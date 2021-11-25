@@ -41,6 +41,7 @@ const Posts = () => {
     const response = await axios.post(`${process.env.REACT_APP_API_URL}posts/by_user`,data).then((res)=>res).catch((err)=>err);
     if (response.request.status != 200) message.error({ content: 'Error inesperado al cargar las publicaciones', key, duration: 2 });
     else {
+      message.success({ content: 'Publicaciones cargadas correctamente', key, duration: 1 });
       setListPosts([...response.data.data])
     }
   }

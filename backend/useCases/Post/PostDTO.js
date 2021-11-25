@@ -42,7 +42,6 @@ module.exports = {
     },
 
     PostResponseDTO: (data) => {
-        console.log(data)
         return {
             id: data.id,
             id_user: data.id_user,
@@ -55,7 +54,8 @@ module.exports = {
             name_file: data.name_file,
             url_file: data.url_file,
             animal_name: data.animal_name,
-            id_file:data.id_file
+            id_file:data.id_file,
+            number_reactions:data.number_reactions
         }
     },
 

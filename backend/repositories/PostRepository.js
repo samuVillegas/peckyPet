@@ -15,7 +15,19 @@ module.exports = class {
         throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
     }
 
+    getPostsWithFilters(id_user,filters){
+        throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
+    }
+
     remove(postId){
+        throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
+    }
+
+    getRaces(filter){
+        throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
+    }
+
+    getAges(filter){
         throw new Error('ERR_METHOD_NOT_IMPLEMENTED');
     }
 }
